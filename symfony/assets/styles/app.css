@@ -1,0 +1,15 @@
+body {
+    background-color: gray;
+    color: black;
+    overflow: auto;
+    margin: 0;
+    padding: 15px;
+    shape-image-threshold: inherit;
+}
+
+h1{
+    color: white;
+}
+h2 {
+    color: #5eb5e0;
+}

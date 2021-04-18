@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  database:
+    build:
+      context: ./docker/database
+    environment:
+      MYSQL_DATABASE: mysetupshare
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/database/data:/var/lib/mysql
+    networks:
+      - symfony
+
+  php:
+    build:
+      context: ./docker
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE}
+    depends_on:
+      - database
+    volumes:
+      - ./symfony/:/var/www/symfony/
+    networks:
+      - symfony
+
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - ./symfony/:/var/www/symfony/
+    depends_on:
+      - php
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - symfony
+
+  encore:
+    image: node:latest
+    volumes:
+      - ./symfony/:/var/www/symfony/:consistent
+    depends_on:
+      - nginx
+    ports:
+      - 8880:8080
+    working_dir: /var/www/symfony/
+    command: yarn watch
+
+networks:
+  symfony:

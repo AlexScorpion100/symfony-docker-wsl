@@ -5,8 +5,8 @@ services:
     build:
       context: ./docker/database
     environment:
-      MYSQL_DATABASE: mysetupshare
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     ports:
       - 3306:3306
     volumes:
@@ -17,10 +17,8 @@ services:
 
   php:
     build:
-      context: ./docker
+      context: .
       dockerfile: ./docker/php/Dockerfile
-      args:
-        TIMEZONE: ${TIMEZONE}
     depends_on:
       - database
     volumes:
@@ -30,7 +28,7 @@ services:
 
   nginx:
     build:
-      context: ./docker
+      context: .
       dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - ./symfony/:/var/www/symfony/

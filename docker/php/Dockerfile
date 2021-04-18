@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nodejs \
     npm \
-    npm install --global yarn \
     zlib1g-dev \
     libzip-dev \
     libfreetype6-dev \

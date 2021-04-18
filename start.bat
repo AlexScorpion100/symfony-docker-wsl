@@ -1,6 +1,6 @@
 @echo off
-echo Wsl && Docker Starting
+for %%I in (.) do echo Starting %%~nxI!
+wsl service docker status
 wsl sudo service docker start
-echo Done...
-echo Starting your project...
-make start
+wsl make start
+pause

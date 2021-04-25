@@ -14,7 +14,7 @@ build-clean:
 	docker-compose build --no-cache --force-rm --compress
 
 start:
-	if [ ! -f .env ] ; then make fetch-env; else echo 'Env vars updated...'; fi; make composer-install; make stop; export UID; export GID; docker-compose up
+	make composer-install; make stop; export UID; export GID; docker-compose up
 
 stop:
 	docker-compose down
